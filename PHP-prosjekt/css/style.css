@@ -1,0 +1,134 @@
+/* 
+    Document   : style
+    Created on : Mar 13, 2013, 2:45:15 PM
+    Author     : havard,marius
+    Description:
+        Purpose of the stylesheet follows.
+*/
+/*-------------------------
+        Hele siden
+--------------------------*/
+#heleSiden{
+    height: 800px;
+    position: relative;
+    background-color: #e0e0e0;
+
+}
+
+/*-------------------------
+        Header
+--------------------------*/
+header{
+    border-radius: 5px;
+    top:20px;
+    background-color: white;
+    position: relative;
+    /*   top, left, bottom, right*/
+    margin:0 50px 30px 50px;
+    height: 110px;
+}
+
+header > img{
+    top:2px;
+    left:2px;
+    position: absolute;
+    height: 105px;
+    width: auto;
+}
+
+header > select {
+    position: absolute;
+    top: 20px;
+    left: 45%;
+    width: 150px;
+}
+
+header > #navigasjon{
+    position: absolute;
+    top:55px;
+    left:32%;
+    width: 600px;
+    height: 50px;
+}
+header > #navigasjon > span > a {
+    background-color: #e0e0e0;
+    color:black;
+    text-decoration: none;
+    border: 0px solid;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    margin-right: 100px;
+}
+header > #navigasjon > span > a:hover {
+    text-decoration: underline;
+}
+header > #navigasjon > span {
+    position: absolute;
+    bottom: 2px;
+    left: 32%;
+}
+header > #innlogging{
+    position: absolute;
+    right: 1px;
+}
+
+header > #fag{
+    position: absolute;
+    top:110px;
+}
+header > #nyttFag{
+    position: absolute;
+    overflow:hidden;
+    float:left;
+    top: 22px;
+    left: 34%;
+}
+header > #nyttFag > span:hover{
+    cursor: pointer;
+    text-decoration: underline;
+}
+header > #nyttFag img{
+    width: 13px;
+    height: auto;
+
+}
+/*-------------------------
+        sideBar
+--------------------------*/
+#sideBar{
+    border-radius: 5px;
+    position: absolute;
+    right: 50px;
+    background-color: white;
+    width: 200px;
+    height: 600px;
+}
+
+#sideBar h4{
+    text-align: center;
+}
+
+#sideBar input[type="checkbox"]{
+    margin-left: 35px;
+}
+
+/*-------------------------
+        Section
+--------------------------*/
+
+section{
+    left:50px;
+    margin-right: 300px;
+}
+
+section > article{
+    position: relative;
+    top:50px;
+    left:25%;
+    margin-bottom: 40px;
+    height: 300px;
+    width: 800px;
+    background-color: red;
+}
+
+
