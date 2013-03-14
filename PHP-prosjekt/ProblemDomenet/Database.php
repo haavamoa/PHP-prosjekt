@@ -1,4 +1,5 @@
 <?php
+
 //Denne er privat og ligger på en mappe utenfor domenet pga. sikkerhet
 include_once'../private/MySQL.php';
 //Denne includen er for Behandler
@@ -93,7 +94,7 @@ class Database {
         $Fagkode = $_POST['Fagkode'];
         $Semester = $_POST['Semester'];
         $sql1 = "select fagkode from FagPHP where fagkode=?";
-        
+
         if ($stmt1 = $this->con->prepare($sql1)) {
             $stmt1->bind_param("s", $Fagkode);
             $stmt1->execute();
@@ -112,45 +113,64 @@ class Database {
         }
     }
 
-
-public function getFag() {
-if ($_SESSION['LoggInn']) {
-$brukernavn = $_SESSION['epost'];
-$sql = "select fagnavn from FagPHP where epost=?";
-if ($stmt = $this->con->prepare($sql)) {
-$stmt->bind_param("s", $brukernavn);
-$stmt->execute();
-$stmt->bind_result($navn);
-$tabell = array();
-$teller = 0;
-while ($stmt->fetch()) {
-$tabell[$teller] = $navn;
-$teller++;
-}
-return $tabell;
-} else {
+    public function getFag() {
+        //Hvis du er logget inn
+        if ($_SESSION['LoggInn']) {
+            $brukernavn = $_SESSION['epost'];
+            $sql = "select fagnavn from FagPHP where epost=? order by fagnavn";
+            if ($stmt = $this->con->prepare($sql)) {
+                $stmt->bind_param("s", $brukernavn);
+                $stmt->execute();
+                $stmt->bind_result($navn);
+                $tabell = array();
+                $teller = 0;
+                while ($stmt->fetch()) {
+                    $tabell[$teller] = $navn;
+                    $teller++;
+                }
+                return $tabell;
+            } else {
+                echo "feil i getFag()";
+            }
+        } else { //Hvis du ikke er logget inn
+            $sql = "select fagnavn from FagPHP order by fagnavn";
+            if ($stmt = $this->con->prepare($sql)) {
+                $stmt->execute();
+                $stmt->bind_result($navn);
+                $tabell = array();
+                $teller = 0;
+                while ($stmt->fetch()) {
+                    $tabell[$teller] = $navn;
+                    $teller++;
+                }
+                return $tabell;
+            } else {
 //echo "feil i getFag()";
-}
-} else {
-$sql = "select fagnavn from FagPHP";
-if ($stmt = $this->con->prepare($sql)) {
-$stmt->execute();
-$stmt->bind_result($navn);
-$tabell = array();
-$teller = 0;
-while ($stmt->fetch()) {
-    $tabell[$teller] = $navn;
-    $teller++;
-}
-return $tabell;
-} else {
-//echo "feil i getFag()";
-}
-}
-}
+            }
+        }
+    }
+
+    //Hent ut fagnavn på fag
+    public function getFagPaNavn($fagnavn) {
+        if ($_SESSION['LoggInn']) {
+            $brukernavn = $_SESSION['epost'];
+            $sql = "select fagnavn,fagkode,semester from FagPHP where epost=? and fagnavn=? order by fagnavn";
+            if ($stmt = $this->con->prepare($sql)) {
+                $stmt->bind_param("ss", $brukernavn, $fagnavn);
+                $stmt->execute($rad = array($fagnavn, $fagkode, $semester));
+                return $rad;
+            }
+        } else {
+            die('lawl');
+            $sql = "select fagnavn,fagkode,semester from FagPHP where fagnavn=? order by fagnavn";
+            if ($stmt = $this->con->prepare($sql)) {
+                $stmt->bind_param("s", $fagnavn);
+                $stmt->execute($rad = array($fagnavn, $fagkode, $semester));
+                return $rad;
+            }
+        }
+    }
 
 }
-
-
 
 ?>

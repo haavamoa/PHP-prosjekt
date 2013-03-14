@@ -83,4 +83,8 @@ if(isset($_POST['NyttFag'])){
         $_SESSION['feilSjekk'] = "NyttFagIkkeOK";
     }
 }
+if(isset($_POST['fag'])){
+    $_SESSION['fagnavn'] = $_POST['fag'];
+    header("location:../$fraSide");
+}
 ?>

@@ -36,7 +36,7 @@ header > img{
     width: auto;
 }
 
-header > select {
+header >form> select {
     position: absolute;
     top: 20px;
     left: 45%;

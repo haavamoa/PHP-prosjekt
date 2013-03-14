@@ -1,6 +1,11 @@
 <?php
 //Bruker session på alle sider for feilhåndteringer
 session_start();
+//Hvis du har klikket på fagnavn
+$fagnavn = $_GET['fagnavn'];
+if($_SESSION['fagnavn']){
+    $fagnavn = $_SESSION['fagnavn'];
+}
 include_once('ProblemDomenet/Database.php');
 $db = new Database();
 $array = $db->getFag(); //Tabell over alle fag, enten om du er inne som lærer eller elev/bruker
