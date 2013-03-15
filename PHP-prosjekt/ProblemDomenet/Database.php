@@ -150,23 +150,42 @@ class Database {
         }
     }
 
-    //Hent ut fagnavn på fag
+    /* Hent ut fagnavn på fag
+     * Sjekker om du er innlogget.
+     * Returnerer array med resultatet gitt innlogget eller ikke.
+     * Hvis innlogget, returnerer ditt fag du velger fra listen.
+     */
+
     public function getFagPaNavn($fagnavn) {
         if ($_SESSION['LoggInn']) {
             $brukernavn = $_SESSION['epost'];
-            $sql = "select fagnavn,fagkode,semester from FagPHP where epost=? and fagnavn=? order by fagnavn";
-            if ($stmt = $this->con->prepare($sql)) {
+            $sql1 = "select fagkode,semester from FagPHP where epost=? and fagnavn=? order by fagnavn";
+            $stmt = mysqli_stmt_init($this->con);
+            if ($stmt = $this->con->prepare($sql1)) {
                 $stmt->bind_param("ss", $brukernavn, $fagnavn);
-                $stmt->execute($rad = array($fagnavn, $fagkode, $semester));
-                return $rad;
+                $stmt->execute();
+                $stmt->bind_result($fagkode, $semester);
+                $array = array();
+                while ($stmt->fetch()) {
+                    $array[0] = $fagnavn;
+                    $array[1] = $fagkode;
+                    $array[2] = $semester;
+                }
+                return $array;
             }
         } else {
-            die('lawl');
-            $sql = "select fagnavn,fagkode,semester from FagPHP where fagnavn=? order by fagnavn";
-            if ($stmt = $this->con->prepare($sql)) {
-                $stmt->bind_param("s", $fagnavn);
-                $stmt->execute($rad = array($fagnavn, $fagkode, $semester));
-                return $rad;
+            $sql2 = "select fagkode,semester from FagPHP where fagnavn=? order by fagnavn";
+            if ($stmt = $this->con->prepare($sql2)) {
+                $stmt->bind_param("s",$fagnavn);
+                $stmt->execute();
+                $stmt->bind_result($fagkode, $semester);
+                $array = array();
+                while ($stmt->fetch()) {
+                    $array[0] = $fagnavn;
+                    $array[1] = $fagkode;
+                    $array[2] = $semester;
+                }
+                return $array;
             }
         }
     }

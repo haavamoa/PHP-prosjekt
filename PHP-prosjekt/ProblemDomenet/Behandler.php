@@ -1,4 +1,13 @@
 <?php
+/*
+ * Behandler.php:
+ * Hele poenget med å ha en prosesseringsfil er for å slippe å pushe sessions,
+ * hver gang du klikker deg rundt på siden. Merk: Hvis du har slike if settninger direkte på en side,
+ * vil du bli spurt om å pushe objekter på nytt for hver gang du navigerer deg frem og tilbake ved
+ * hjelp av forward og backward browser funksjoner.
+ * Denne klassen sjekker da hvilke former du bruker, og utfører funksjoner fra databasen ut i fra hva du
+ * ønsker å utføre.
+ */
 
 //Interessert i å bruke session for å håndtere feilmeldinger.
 session_start();
@@ -76,6 +85,7 @@ if (isset($_POST['EndrePassord'])) {
 if(isset($_POST['NyttFag'])){
     $feilsjekk = $db->nyttFag();
     if($feilsjekk != 0){
+        $_SESSION['fagnavn'] = $_POST['Fagnavn'];
         header("location:../$sideFra");
         $_SESSION['feilSjekk'] = "NyttFagOK";
     }else{
@@ -83,8 +93,12 @@ if(isset($_POST['NyttFag'])){
         $_SESSION['feilSjekk'] = "NyttFagIkkeOK";
     }
 }
+
+/*
+ * Hvis du har klikket på et fag fra listen, blir dette kjørt
+ */
 if(isset($_POST['fag'])){
     $_SESSION['fagnavn'] = $_POST['fag'];
-    header("location:../$fraSide");
+    header("location:../$sideFra");
 }
 ?>

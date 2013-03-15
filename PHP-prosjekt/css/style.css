@@ -37,9 +37,8 @@ header > img{
 }
 
 header >form> select {
-    position: absolute;
-    top: 20px;
-    left: 45%;
+    display:block;
+    margin: 0 auto;
     width: 150px;
 }
 
@@ -117,17 +116,16 @@ header > #nyttFag img{
 --------------------------*/
 
 section{
-    left:50px;
+    background-color: blue;
+    margin-top:75px;
+    margin-left: 50px;
     margin-right: 300px;
 }
 
 section > article{
     position: relative;
-    top:50px;
-    left:25%;
     margin-bottom: 40px;
-    height: 300px;
-    width: 800px;
+    width: auto;
     background-color: red;
 }
 
