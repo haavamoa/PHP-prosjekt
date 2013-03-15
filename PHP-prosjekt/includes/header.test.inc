@@ -1,5 +1,4 @@
 <header>
-
     <img src="img/logo_hist.png"/>
     <div id="logginnognav">
         <div id="logginn">
@@ -18,16 +17,40 @@
         </div>
         <span id="fagselect">
             <span id="nyfag">
+                <span id="nyttFag">
+                    <img src="img/LeggtilFag.png"/> <span>Legg til nytt fag</span>
+                    <div id="nyttFagForm">
+                        <form method="post" action="ProblemDomenet/Behandler.php">
+                            <table>
+                                <tr><td>Fagnavn:</td><td><input type="text" name="Fagnavn" required/></td></tr>
+                                <tr><td>Fagkode:</td><td><input type="text" name="Fagkode"/></td></tr>
+                                <tr><td>Semester:</td><td><input type="text" name="Semester"/></td></tr>
+                                <tr><td><input type="submit" name="NyttFag" value="Legg til"/></td></tr>
+                            </table>
+                        </form>
+                    </div>
+                </span>
+
                 <?php
-                //Hvis du er Lærer skal du kan legge til fag
-                if ($_SESSION['LoggInn']) {
-                    include_once 'includes/nyttFag.inc';
+                //Hvis du er lærer skal du kan legge til fag, altså at span over er visible (litt hot fix)
+                if ($_SESSION['LoggInn']) {?>
+                  <script>$(document).ready(function() {
+                            $("#nyttFag").css("visibility","visible");
+                        });
+                    </script>  
+                <?} else {
+                    ?>
+                    <script>$(document).ready(function() {
+                            $("#nyttFag").css("visibility","hidden");
+                        });
+                    </script>
+                    <?
                 }
                 ?>
             </span>
             <span id="fagliste">
                 <form method="post" name="fag_liste" action="ProblemDomenet/Behandler.php">
-                     <select name="fag" onChange="document.fag_liste.submit()">
+                    <select name="fag" onChange="document.fag_liste.submit();">
                         <?php
                         /*
                          * Dette er en for-løkke som skriver ut alle fag som er registrert.
@@ -47,7 +70,7 @@
                         }
                         ?>
                     </select>
-                    </form>
+                </form>
             </span>
         </span>
 

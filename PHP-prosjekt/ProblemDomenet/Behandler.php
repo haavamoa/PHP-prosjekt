@@ -101,4 +101,10 @@ if(isset($_POST['fag'])){
     $_SESSION['fagnavn'] = $_POST['fag'];
     header("location:../$sideFra");
 }
+
+if(isset($_POST['EndreFag'])){
+    $db->endreFag();
+    $_SESSION['fagnavn'] = $_POST['Fagnavn'];
+    header("location:../$sideFra");
+}
 ?>

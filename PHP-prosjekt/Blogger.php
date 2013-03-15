@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html>
-    <?php include_once 'includes/head.inc'; ?>
+    <?php
+    
+    include_once 'includes/head.inc';
+    include_once'ProblemDomenet/Database.php';
+    $db = new Database();
+    
+    ?>
     <body>
         <div id="heleSiden">
             <?php

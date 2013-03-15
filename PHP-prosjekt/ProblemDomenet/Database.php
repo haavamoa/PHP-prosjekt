@@ -145,7 +145,7 @@ class Database {
                 }
                 return $tabell;
             } else {
-//echo "feil i getFag()";
+                echo "feil i getFag()";
             }
         }
     }
@@ -176,7 +176,7 @@ class Database {
         } else {
             $sql2 = "select fagkode,semester from FagPHP where fagnavn=? order by fagnavn";
             if ($stmt = $this->con->prepare($sql2)) {
-                $stmt->bind_param("s",$fagnavn);
+                $stmt->bind_param("s", $fagnavn);
                 $stmt->execute();
                 $stmt->bind_result($fagkode, $semester);
                 $array = array();
@@ -190,6 +190,19 @@ class Database {
         }
     }
 
-}
-
+    public function endreFag() {
+        
+        $Brukernavn = $_SESSION['epost'];
+        $Fagnavn = $_POST['Fagnavn'];
+        $FagnavnPrimaer = $_SESSION['fagnavn'];
+        $Fagkode = $_POST['Fagkode'];
+        $Semester = $_POST['Semester'];
+        $sql = "update FagPHP set fagnavn=?,fagkode=?,semester=? where fagnavn=?";
+        if($stmt = $this->con->prepare($sql)){ 
+            $stmt->bind_param("ssss",$Fagnavn,$Fagkode,$Semester,$FagnavnPrimaer);
+            if(!$stmt->execute())die($this->con->error);
+        }
+            echo "feil i getFag()";
+        }
+    }
 ?>

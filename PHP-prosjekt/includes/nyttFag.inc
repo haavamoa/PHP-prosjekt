@@ -1,4 +1,4 @@
-<span id="nyttFag">
+<span id="nyttFag" style="visibility: visible">
 <img src="img/LeggtilFag.png"/> <span>Legg til nytt fag</span>
     <div id="nyttFagForm">
         <form method="post" action="ProblemDomenet/Behandler.php">
