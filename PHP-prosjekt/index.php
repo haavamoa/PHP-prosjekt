@@ -10,7 +10,7 @@
     <body>
         <div id="heleSiden">
             <?php
-            include_once 'includes/header.inc';
+            include_once 'includes/header.test.inc';
             include_once 'includes/sidebar.inc';
             ?>
             <section>
