@@ -150,6 +150,43 @@ class Database {
         }
     }
 
+    public function getGamleFag() {
+        //Hvis du er logget inn
+        if ($_SESSION['LoggInn']) {
+            $brukernavn = $_SESSION['epost'];
+            $sql = "select fagnavn from GamleFagPHP where epost=? order by fagnavn";
+            if ($stmt = $this->con->prepare($sql)) {
+                $stmt->bind_param("s", $brukernavn);
+                $stmt->execute();
+                $stmt->bind_result($navn);
+                $tabell = array();
+                $teller = 0;
+                while ($stmt->fetch()) {
+                    $tabell[$teller] = $navn;
+                    $teller++;
+                }
+                return $tabell;
+            } else {
+                echo "feil i getFag()";
+            }
+        } else { //Hvis du ikke er logget inn
+            $sql = "select fagnavn from GamleFagPHP order by fagnavn";
+            if ($stmt = $this->con->prepare($sql)) {
+                $stmt->execute();
+                $stmt->bind_result($navn);
+                $tabell = array();
+                $teller = 0;
+                while ($stmt->fetch()) {
+                    $tabell[$teller] = $navn;
+                    $teller++;
+                }
+                return $tabell;
+            } else {
+                echo "feil i getFag()";
+            }
+        }
+    }
+
     /* Hent ut fagnavn på fag
      * Sjekker om du er innlogget.
      * Returnerer array med resultatet gitt innlogget eller ikke.
@@ -159,50 +196,93 @@ class Database {
     public function getFagPaNavn($fagnavn) {
         if ($_SESSION['LoggInn']) {
             $brukernavn = $_SESSION['epost'];
-            $sql1 = "select fagkode,semester from FagPHP where epost=? and fagnavn=? order by fagnavn";
+            $sql1 = "select fagkode,semester from FagPHP where epost=? and fagnavn=?";
             $stmt = mysqli_stmt_init($this->con);
             if ($stmt = $this->con->prepare($sql1)) {
                 $stmt->bind_param("ss", $brukernavn, $fagnavn);
                 $stmt->execute();
                 $stmt->bind_result($fagkode, $semester);
                 $array = array();
-                while ($stmt->fetch()) {
+                $stmt->fetch();
                     $array[0] = $fagnavn;
                     $array[1] = $fagkode;
                     $array[2] = $semester;
-                }
                 return $array;
             }
         } else {
-            $sql2 = "select fagkode,semester from FagPHP where fagnavn=? order by fagnavn";
+            $sql2 = "select BrukerePHP.navn,fagkode,semester from BrukerePHP,FagPHP where fagnavn=? and BrukerePHP.epost=FagPHP.epost";
             if ($stmt = $this->con->prepare($sql2)) {
                 $stmt->bind_param("s", $fagnavn);
                 $stmt->execute();
-                $stmt->bind_result($fagkode, $semester);
+                $stmt->bind_result($navn, $fagkode, $semester);
                 $array = array();
-                while ($stmt->fetch()) {
-                    $array[0] = $fagnavn;
-                    $array[1] = $fagkode;
-                    $array[2] = $semester;
-                }
+                $stmt->fetch();
+                $array[0] = $fagnavn;
+                $array[1] = $fagkode;
+                $array[2] = $semester;
+                $array[3] = $navn;
                 return $array;
             }
         }
     }
 
+    public function getGammeltFagPaNavn($semester, $fagnavn) {
+        if ($_SESSION['LoggInn']) {
+            $brukernavn = $_SESSION['epost'];
+            $sql1 = "select fagkode from GamleFagPHP where epost=? and fagnavn=? and semester=?";
+            $stmt = mysqli_stmt_init($this->con);
+            if ($stmt = $this->con->prepare($sql1)) {
+                $stmt->bind_param("sss", $brukernavn, $fagnavn, $semester);
+                $stmt->execute();
+                $stmt->bind_result($fagkode);
+                $array = array();
+                $stmt->fetch();
+                $array[0] = $fagnavn;
+                $array[1] = $fagkode;
+                $array[2] = $semester;
+                return $array;
+            } else {
+                $sql2 = "select BrukerePHP.navn,fagkode from BrukerePHP,GamleFagPHP where fagnavn=? and semester=? and BrukerePHP.epost=FagPHP.epost ";
+                if ($stmt = $this->con->prepare($sql2)) {
+                    $stmt->bind_param("ss", $fagnavn, $semester);
+                    $stmt->execute();
+                    $stmt->bind_result($navn, $fagkode);
+                    $array = array();
+                    $stmt->fetch();
+                    $array[0] = $fagnavn;
+                    $array[1] = $fagkode;
+                    $array[2] = $semester;
+                    $array[3] = $navn;
+                    return $array;
+                }
+            }
+        }
+    }
+
     public function endreFag() {
-        
         $Brukernavn = $_SESSION['epost'];
         $Fagnavn = $_POST['Fagnavn'];
         $FagnavnPrimaer = $_SESSION['fagnavn'];
         $Fagkode = $_POST['Fagkode'];
         $Semester = $_POST['Semester'];
         $sql = "update FagPHP set fagnavn=?,fagkode=?,semester=? where fagnavn=?";
-        if($stmt = $this->con->prepare($sql)){ 
-            $stmt->bind_param("ssss",$Fagnavn,$Fagkode,$Semester,$FagnavnPrimaer);
-            if(!$stmt->execute())die($this->con->error);
+        if ($stmt = $this->con->prepare($sql)) {
+            $stmt->bind_param("ssss", $Fagnavn, $Fagkode, $Semester, $FagnavnPrimaer);
+            if (!$stmt->execute())
+                die($this->con->error);
         }
-            echo "feil i getFag()";
+        echo "feil i getFag()";
+    }
+
+    public function skrivUtLenke() {
+        if ($_SESSION['LoggInn']) {
+            $fag = $_SESSION['fagnavn'];
+            $ServerLenke = $_SERVER['SERVER_NAME'];
+            $_SESSION['link'] = "<a href=\"http://$ServerLenke/PHP-prosjekt/?fagnavn=$fag\">http://$ServerLenke/PHP-prosjekt/?fagnavn=$fag</a>";
+            echo '</br>Lenke til faget:' . $_SESSION['link'];
         }
     }
+
+}
+
 ?>
