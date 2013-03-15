@@ -23,24 +23,24 @@ header{
     top:20px;
     background-color: white;
     position: relative;
-    /*   top, left, bottom, right*/
+       top: left, bottom, right;
     margin:0 50px 30px 50px;
     height: 110px;
 }
 
-header > img{
+/*header > img{
     top:2px;
     left:2px;
     position: absolute;
     height: 105px;
     width: auto;
-}
+}*/
 
-header >form> select {
+/*header >form> select {
     display:block;
     margin: 0 auto;
     width: 150px;
-}
+}*/
 
 header > #navigasjon{
     position: absolute;
@@ -69,6 +69,7 @@ header > #navigasjon > span {
 header > #innlogging{
     position: absolute;
     right: 1px;
+    
 }
 
 header > #fag{
@@ -129,4 +130,89 @@ section > article{
     background-color: red;
 }
 
+/*her begynner Marius å fucke!*/
 
+
+*{
+    margin: 0;
+    padding: 0;
+}
+
+/*header{
+    height: 165px;
+    width: 1250px;
+    
+}*/
+
+header > img {
+   
+    position: absolute;
+    height: 105px;
+    width: auto;
+    
+            
+}
+#logginnognav{
+    
+    margin-bottom: 30px;
+    
+}
+#nav{
+   
+    margin-top: 100px;
+    text-align: center;
+    
+}
+
+#logginn{
+  float:right;
+  
+    
+/*    width: 50%;
+    margin: 0px auto;*/
+}
+#fagselect{
+    position: relative;
+/*    margin: auto auto;*/
+    left: 150px;
+    top: 50px;
+    
+    
+    
+    
+}
+#nav > ul{
+    list-style: none;
+}
+#nav > ul > li{
+    display: inline-block;
+    margin-right: 100px;
+    margin-left: 100px;
+    
+}
+#nav > ul > li > a{
+    text-decoration: none;
+}
+
+#fagselect > ul{
+    list-style: none;
+}
+
+#fagselect > ul > li > a{
+    text-decoration: none;
+}
+#nyttFag > img{
+    height: 20px;
+    width: auto;
+}
+
+#fagselect > #nyfag{
+    margin-left: 100px;
+}
+#fagselect > #fagliste{
+    margin-left: 100px;
+}
+
+#fagselect select{
+    display: inline-block;
+}
